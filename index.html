@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odometer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        .odometer-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #eaeaea;
+        }
+        .wheel-container {
+            text-align: center;
+        }
+        .wheel {
+            font-size: 2em;
+            width: 60px;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+        .label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .button {
+            font-size: 1em;
+            padding: 5px;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 60px;
+        }
+        .button.plus {
+            background-color: #4caf50;
+        }
+        .button.minus {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Odometer</h1>
+
+    <div class="odometer-container">
+        <div class="wheel-container">
+            <div class="label">100’er</div>
+            <div id="hundreds" class="wheel">0</div>
+            <div class="buttons">
+                <button class="button plus" onclick="increment('hundreds')">+</button>
+                <button class="button minus" onclick="decrement('hundreds')">-</button>
+            </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="label">10’er</div>
+            <div id="tens" class="wheel">0</div>
+            <div class="buttons">
+                <button class="button plus" onclick="increment('tens')">+</button>
+                <button class="button minus" onclick="decrement('tens')">-</button>
+            </div>
+        </div>
+
+        <div class="wheel-container">
+            <div class="label">1’er</div>
+            <div id="units" class="wheel">0</div>
+            <div class="buttons">
+                <button class="button plus" onclick="increment('units')">+</button>
+                <button class="button minus" onclick="decrement('units')">-</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function increment(id) {
+            const current = document.getElementById(id);
+            let value = parseInt(current.textContent);
+            value = (value + 1) % 10;
+            current.textContent = value;
+
+            if (value === 0) {
+                if (id === 'units') increment('tens');
+                else if (id === 'tens') increment('hundreds');
+            }
+        }
+
+        function decrement(id) {
+            const current = document.getElementById(id);
+            let value = parseInt(current.textContent);
+            value = (value - 1 + 10) % 10;
+            current.textContent = value;
+
+            if (value === 9) {
+                if (id === 'units') decrement('tens');
+                else if (id === 'tens') decrement('hundreds');
+            }
+        }
+    </script>
+
+</body>
+</html>
